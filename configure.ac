@@ -83,7 +83,7 @@ if test "x$with_plist" == "xyes"; then
     AC_MSG_ERROR([requested building with libplist, but library could not be found])
   fi
 else
-  echo "*** Note: libplist has been disabled ***"
+  AC_MSG_WARN([*** Note: libplist has been disabled ***])
   AC_SUBST([HEADER_HAVE_PLIST], [0])
 fi
 
@@ -99,7 +99,7 @@ if test "x$with_openssl" == "xyes"; then
     AC_MSG_ERROR([requested building with openssl, but library could not be found])
   fi
 else
-  echo "*** Note: openssl has been disabled ***"
+  AC_MSG_WARN([*** Note: openssl has been disabled ***])
   AC_SUBST([HEADER_HAVE_OPENSSL], [0])
 fi
 
@@ -111,7 +111,7 @@ else
 fi
 
 if test "$debug_build" = true; then
-  echo "*** Note: debug build requested ***"
+  AC_MSG_WARN([*** Note: debug build requested ***])
   CFLAGS+=" -g -O0 -DDEBUG=1"
   CXXFLAGS+=" -g -O0 -DDEBUG=1"
 fi
@@ -123,12 +123,12 @@ AC_CHECK_HEADERS([arpa/inet.h stdint.h stdlib.h string.h unistd.h winsock.h])
 if test "x$with_compression" == "xyes"; then
   AC_CHECK_LIB([compression], [compression_decode_buffer], [], [
     AC_CHECK_LIB([lzfse], [lzfse_decode_buffer], [], [
-      echo "Error! Either libcompression or liblzfse is needed!"
-      exit -1
+      AC_MSG_ERROR([Error! Either libcompression or liblzfse is needed!])
+      exit 1
     ])
   ])
 else
-  echo "*** Note: bvx2 has been disabled ***"
+  AC_MSG_WARN([*** Note: bvx2 has been disabled ***])
 fi
 
 if test "x$win32" == "xtrue"; then
